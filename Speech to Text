@@ -1,0 +1,35 @@
+import speech_recognition as sr
+
+#convert audio file to text
+r = sr.Recognizer()
+harvard=sr.AudioFile('harvard.wav')
+with harvard as source:
+    audio = r.record(source)  
+print("Google Speech Recognition thinks you said:  " + r.recognize_google(audio))
+
+
+#start anywhere with offset and stop anywhere with duration
+with harvard as source:
+    audio = r.record(source, offset=4, duration=3)
+r.recognize_google(audio)
+
+#a louder audio file
+r = sr.Recognizer()
+jack=sr.AudioFile('jackhammer.wav')
+with jack as source:
+    audio = r.record(source)      
+r.recognize_google(audio)
+
+#show closest possibilities
+with jack as source:
+     r.adjust_for_ambient_noise(source, duration=0.5)
+     audio = r.record(source)
+r.recognize_google(audio)
+r.recognize_google(audio, show_all=True)
+
+#use microphone and choose language
+r = sr.Recognizer()
+mic = sr.Microphone()
+with mic as source:
+     audio = r.listen(source)
+r.recognize_google(audio, language='tr-TR') 
